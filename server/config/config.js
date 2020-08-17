@@ -6,6 +6,6 @@ if(process.env.NODE_ENV==="dev"){
     urldB="mongodb://localhost:27017/bdprueba"    
 }
 else{
-    urldB='mongodb+srv://Kevin:dy99QkVLNcFpm7mB@cluster0.aubvv.mongodb.net/bdprueba'
+    urldB=process.env.MONGO_URI
 }
 process.env.urldB=urldB
