@@ -41,7 +41,6 @@ usuarioSchema.methods.toJSON=function()
     let user=this
     let userObject=user.toObject()
     delete userObject.password
-    console.log(userObject)
     return userObject
 }
 usuarioSchema.plugin(uniueValidator,{
