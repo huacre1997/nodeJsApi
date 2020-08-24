@@ -33,13 +33,13 @@ app.get("/usuario",[verificaToken], function (req, res) {
 })
 app.post('/usuario',[verificaToken,checkRole], function (req, res) {
     let body = req.body
+
     let usuario = new Usuario({
         name: body.name,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         role: body.role
     })
-
     usuario.save((err, usuarioDB) => {
         if (err) {
             return res.status(400).json({
