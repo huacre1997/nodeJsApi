@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign in</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+        content="2997967704-vl3pstl0pj24ho6rr1g4v391o81mf039.apps.googleusercontent.com">
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<style>
+    body {
+        background-color: royalblue;
+
+    }
+</style>
+
+<body>
+    <div class="container-fluid d-flex justify-content-center align-items-center flex-wrap  "
+        style="width:40%;height:100vh;">
+        <div style="width: 100%;"></div>
+        <div style="width: 100%;" class="d-flex justify-content-center flex-wrap">
+            <div class="g-signin2 m-1" data-onsuccess="onSignIn"></div>
+            <a class="btn btn-light shadow  rounded" href="#" onclick="signOut();" style="width: 100%;">Sign out</a>
+        </div>
+        <div style="width: 100%;"></div>
+
+
+    </div>
+
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log(id_token)
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/google');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                console.log('Signed in as: ' + xhr.responseText);
+            };
+            xhr.send('idtoken=' + id_token);
+
+        }
+    </script>
+</body>
+<script src="static/js/jquery-3.5.1.min.js"></script>
+<script src="static/js/bootstrap.js"></script>
+
+</html>
