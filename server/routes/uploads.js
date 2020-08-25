@@ -46,23 +46,23 @@ app.put('/uploads/:tipo/:id', function(req, res) {
           ok:false,
           err
       });
-      if(tipo=="ususarios"){
+      if(tipo=="usuarios"){
    imagenUsuario(id,res,nombrerchivo)
     }else{
    imagenProducto(id,res,nombrerchivo)}
   });
 });
-function imagenUsuario(id,res,nombrerchivo){
+function imagenUsuario(id,res,nombreArchivo){
     Usuario.findById(id,(err,usuarioDB)=>{
         if(err){
-            borrarImagen(nombreImage,"usuarios")
+            borrarImagen(nombreArchivo,"usuarios")
             return res.status(500).json({
                 ok:false,
                 err
             })
         }
         if(!usuarioDB){
-            borrarImagen(nombreImage,"usuarios")
+            borrarImagen(nombreArchivo,"usuarios")
 
             return res.status(400).json({
                 ok:false,
@@ -76,12 +76,12 @@ function imagenUsuario(id,res,nombrerchivo){
         //     fs.unlinkSync(pathImage)
         // }
         borrarImagen(usuarioDB.image,"usuarios")
-        usuarioDB.image=nombrerchivo
+        usuarioDB.image=nombreArchivo
         usuarioDB.save((err,usuarioSaved)=>{
             res.json({
                 ok:true, 
                 usuario:usuarioSaved,
-                img:nombrerchivo
+                img:nombreArchivo
             })
         })
     })
@@ -89,14 +89,14 @@ function imagenUsuario(id,res,nombrerchivo){
 function imagenProducto(id,res,nombreArchivo){
     Producto.findById(id,(err,productoDB)=>{
         if(err){
-            borrarImagen(nombreImage,"productos")
+            borrarImagen(nombreArchivo,"productos")
             return res.status(500).json({
                 ok:false,
                 err
             })
         }
         if(!productoDB){
-            borrarImagen(nombreImage,"productos")
+            borrarImagen(nombreArchivo,"productos")
 
             return res.status(400).json({
                 ok:false,
