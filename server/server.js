@@ -13,7 +13,13 @@ app.use(bodyParser.json())
 
 app.use( express.static(path.resolve(__dirname ,"../public")))
 app.use(require("./routes/index"))
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.urldB,{ useNewUrlParser: true ,useCreateIndex: true}, (err, res) => {
